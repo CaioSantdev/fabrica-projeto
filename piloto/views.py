@@ -13,11 +13,18 @@ def cadastro(request):
         }
         return render(request,'piloto/pages/Cadastro.html',context=context)
     else:
-        form = StudentForm(request.POST)
+        form = StudentForm(request.POST,request.FILES)
+
         if form.is_valid():
-            student = form.save()
-            form = StudentForm()
-        
+            print(f'Request: {request.POST}')
+            # student = form.save(commit=False)
+            # student.image = request.FILES['image']
+            # student.save()
+            form.save()
+            
+        else:
+            print(form.errors)
+
         context = {
             'form':form
         }
