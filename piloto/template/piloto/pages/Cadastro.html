@@ -1,0 +1,21 @@
+{% extends "global/index.html" %}
+
+{% block titulo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Cadastro de um novo aluno</h1>
+</div>
+{% endblock titulo %}
+
+
+{% block conteudo %}
+    
+    <h1>Model Form</h1>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Salvar">
+    </form>
+
+{% endblock conteudo %}
+
+

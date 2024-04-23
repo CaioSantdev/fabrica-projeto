@@ -15,9 +15,9 @@ class Courses(models.Model):
         return self.name
 
 class Student(models.Model):
-    registration = models.CharField(max_length=9,unique=True)
     name = models.CharField(max_length=100)
     cpf = models.CharField(max_length=14,unique=True)
+    registration = models.CharField(max_length=9,unique=True)
     brith_date = models.DateField()
     image = models.ImageField(upload_to='piloto/img/%Y/%m/%d/')
     # problema de d0n_delete CASCADE -> RESOLVER!!
