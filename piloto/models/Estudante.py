@@ -1,4 +1,4 @@
-from typing import Iterable
+# from typing import Iterable
 from django.db import models
 from piloto.models import Cursos
 import datetime
@@ -27,7 +27,7 @@ class Estudante(models.Model):
     modoDeEntrada = models.IntegerField(verbose_name="Modo de Entrada",choices=MODO_DE_ENTRADA,default="SISU")
 
     def __str__(self):
-        return self.name
+        return self.nomeEstudante
     
     class Meta:
         verbose_name = "Estudante"
