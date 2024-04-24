@@ -7,13 +7,13 @@ def home(request):
     return render(request,'global/index.html')
 def cadastro(request):
     if request.method == "GET":
-        form = StudentForm()
+        form = EstudanteForm()
         context = {
             'form':form
         }
         return render(request,'piloto/pages/Cadastro.html',context=context)
     else:
-        form = StudentForm(request.POST,request.FILES)
+        form = EstudanteForm(request.POST,request.FILES)
 
         if form.is_valid():
             print(f'Request: {request.POST}')

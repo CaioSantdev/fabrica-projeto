@@ -2,15 +2,15 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
-class StudentAdmin(admin.ModelAdmin):
+class EstudanteAdmin(admin.ModelAdmin):
     ...
 
-class CourseAdmin(admin.ModelAdmin):
+class CursosAdmin(admin.ModelAdmin):
     ...
 
-class CampunsAdmin(admin.ModelAdmin):
+class CampusAdmin(admin.ModelAdmin):
     ...
 
-admin.site.register(Student,StudentAdmin)
-admin.site.register(Courses,CourseAdmin)
-admin.site.register(Campus,CampunsAdmin)
+admin.site.register(Estudante,EstudanteAdmin)
+admin.site.register(Cursos,CursosAdmin)
+admin.site.register(Campus,CampusAdmin)
