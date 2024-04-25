@@ -12611,6 +12611,28 @@ body.sidebar-toggled footer.sticky-footer {
 
 /* Form Cadastro */
 
-.main-content{
+.form-content label {
+	display: block;
+	margin: .5rem 0;
+	font-size: 1.4rem;
+
+}.form-content input {
+	width: 100%;
+	padding: 1rem;
+	border-radius: .4rem;
+	border: 1px solid var(--blue);
+
+}
+
+.form-content button{
+	padding: 1rem 2rem;
+	border: none;
+	background-color: #30497c;
+	border-radius: 10px;
+}
+
+.form-content{
+	max-width: 64rem;
+	margin: 0 auto;
 
 }
