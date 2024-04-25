@@ -1,7 +1,6 @@
-# from typing import Iterable
 from django.db import models
 from piloto.models import Cursos
-import datetime
+import datetime, random
 
 SITUACAO = {
     1: "Vinculado",
@@ -16,11 +15,11 @@ MODO_DE_ENTRADA ={
 }
 
 class Estudante(models.Model):
-    nomeEstudante = models.CharField("Nome do Estudante",max_length=100)
-    cpfEstudante = models.CharField("Cpf do Estudante",max_length=14,unique=True)
-    matriculaEstudante = models.CharField("Matricula",max_length=9,unique=True,)
-    dataAniversario = models.DateField("Data de aniversário",null=True)
-    eImagem = models.ImageField("Foto do Estudante",)
+    nomeEstudante = models.CharField(verbose_name="Nome do Estudante",max_length=100)
+    cpfEstudante = models.CharField(verbose_name="Cpf do Estudante",max_length=14,unique=True)
+    matriculaEstudante = models.CharField(verbose_name="Matricula",max_length=9,unique=True,)
+    dataAniversario = models.DateField(verbose_name="Data de aniversário",null=True)
+    eImagem = models.ImageField(verbose_name="Foto do Estudante",upload_to="piloto/img/%Y/%m/%d")
     # problema de d0n_delete CASCADE -> RESOLVER!!
     cursoEstudante = models.ForeignKey(Cursos,verbose_name="Curso do Estudante",on_delete=models.CASCADE)
     situacaoEstudante = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default="VINCULADO")
@@ -36,13 +35,12 @@ class Estudante(models.Model):
     def save(self):
         if not self.matriculaEstudante:
             anoAtual = datetime.datetime.now().year
-            mesAtual = datetime.datetime.now().month
-            semestre = 1 if mesAtual <= 6 else 2 
+            semestre = 1 if datetime.datetime.now().month <= 6 else 2 
 
-
-            Estudante.objects.filter(matriculaEstudante=matricula).exists()
-
-
-
-
-        return super(Estudante,self).save()
+            while True:
+                numeroAleatorio = random.randint(1000,9999)
+                matricula = f"{anoAtual}{semestre}{numeroAleatorio}"
+                
+                if not Estudante.objects.filter(matriculaEstudante=matricula).exists():
+                    self.matriculaEstudante = matricula
+                    return super(Estudante,self).save()
