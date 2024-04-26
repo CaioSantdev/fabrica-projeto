@@ -11,3 +11,14 @@ class EstudanteForm(forms.ModelForm):
                   "cursoEstudante",
                   "situacaoEstudante",
                   "modoDeEntrada"]
+        
+class CursosForm(forms.ModelForm):
+    class Meta:
+        model = Cursos
+        fields = ["name",
+                  "campus"]
+        
+class CampusForm(forms.ModelForm):
+    class Meta:
+        model = Campus
+        fields = ["name",]

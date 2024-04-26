@@ -1,0 +1,45 @@
+{% extends "global/index.html" %}
+{% load crispy_forms_tags %}
+{% block titulo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2 col-5 center container mb-0 text-gray-800">Todos Estudantes</h1>
+</div>
+{% endblock titulo %}
+
+
+{% block conteudo %}
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">CPF</th>
+        <th scope="col">Matricula</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Campus</th>
+        <th scope="col">Situaçao</th>
+        <th scope="col">Modo de Entrada</th>
+        <th scope="col">Aniversário</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for usuarios in alunos %}
+            <tr>
+                <td>{{usuarios.id}}</td>
+                <td>{{usuarios.nomeEstudante}}</td>
+                <td>{{usuarios.cpfEstudante}}</td>
+                <td>{{usuarios.matriculaEstudante}}</td>
+                <td>{{usuarios.cursoEstudante.name}}</td>
+                <td>{{usuarios.cursoEstudante.campus.name}}</td>
+                <td>{{usuarios.get_situacaoEstudante_display}}</td>
+                <td>{{usuarios.get_modoDeEntrada_display}}</td>
+                <td>{{usuarios.dataAniversario}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock conteudo %}
+
+
