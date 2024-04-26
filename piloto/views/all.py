@@ -1,10 +1,33 @@
 from django.shortcuts import render
-from . forms import *
+from piloto.models import Estudante,Campus,Cursos
+from piloto.forms import EstudanteForm, CursosForm,CampusForm
 
 # Create your views here.
 
 def home(request):
-    return render(request,'global/index.html')
+    estudantes = Estudante.objects.all()
+    cursos = Cursos.objects.all()
+    campus = Campus.objects.all()
+    
+    qtdEstudantes = estudantes.count()
+    qtdCursos = cursos.count()
+    qtdCampus = campus.count()
+    
+    context = {
+        'estudantes':qtdEstudantes,
+        'cursos':qtdCursos,
+        'campus':qtdCampus
+    }
+    return render(request,'piloto/pages/Dashboard.html',context=context)
+
+def listar(request):
+    alunos = Estudante.objects.all()
+    
+    context = {
+        'alunos':alunos
+    }
+    return render(request,'piloto/pages/Listar.html',context=context)
+
 def cadastro(request):
     if request.method == "GET":
         form = EstudanteForm()
@@ -29,11 +52,6 @@ def cadastro(request):
             'form':form
         }
         return render(request,'piloto/pages/Cadastro.html',context=context)
-
-
-def listar(request):
-    alunos = Estudante.objects.all()
-    return render(request,'piloto/pages/Listar.html',{'alunos':alunos})
 
 def cursos(request):
     if request.method == "GET":
