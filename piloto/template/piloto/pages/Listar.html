@@ -24,17 +24,17 @@
       </tr>
     </thead>
     <tbody>
-        {% for usuarios in alunos %}
+        {% for estudantes in estudantes %}
             <tr>
-                <td>{{usuarios.id}}</td>
-                <td>{{usuarios.nomeEstudante}}</td>
-                <td>{{usuarios.cpfEstudante}}</td>
-                <td>{{usuarios.matriculaEstudante}}</td>
-                <td>{{usuarios.cursoEstudante.nomeCurso}}</td>
-                <td>{{usuarios.cursoEstudante.campus.nomeCampus}}</td>
-                <td>{{usuarios.get_situacaoEstudante_display}}</td>
-                <td>{{usuarios.get_modoDeEntrada_display}}</td>
-                <td>{{usuarios.dataAniversario}}</td>
+                <td>{{estudantes.id}}</td>
+                <td>{{estudantes.nomeEstudante}}</td>
+                <td>{{estudantes.cpfEstudante}}</td>
+                <td>{{estudantes.matriculaEstudante}}</td>
+                <td>{{estudantes.cursoEstudante.nomeCurso}}</td>
+                <td>{{estudantes.cursoEstudante.campus.nomeCampus}}</td>
+                <td>{{estudantes.get_situacaoEstudante_display}}</td>
+                <td>{{estudantes.get_modoDeEntrada_display}}</td>
+                <td>{{estudantes.dataAniversario}}</td>
             </tr>
         {% endfor %}
     </tbody>
