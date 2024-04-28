@@ -16,7 +16,7 @@ MODO_DE_ENTRADA ={
 
 class Estudante(models.Model):
     nomeEstudante = models.CharField(verbose_name="Nome do Estudante",max_length=100)
-    cpfEstudante = models.CharField(verbose_name="Cpf do Estudante",max_length=14,unique=True)
+    cpfEstudante = models.CharField(verbose_name="CPF do Estudante",max_length=14,unique=True)
     matriculaEstudante = models.CharField(verbose_name="Matricula",max_length=9,unique=True,)
     dataAniversario = models.DateField(verbose_name="Data de aniversário",null=True)
     eImagem = models.ImageField(verbose_name="Foto do Estudante",upload_to="piloto/img/%Y/%m/%d")
@@ -36,11 +36,18 @@ class Estudante(models.Model):
         if not self.matriculaEstudante:
             anoAtual = datetime.datetime.now().year
             semestre = 1 if datetime.datetime.now().month <= 6 else 2 
+            
+            # Obtendo o último número da matrícula
+            ultimoNumero = Estudante.objects.filter(
+                matriculaEstudante__startswith=f"{anoAtual}{semestre}"
+            ).aggregate(models.Max('matriculaEstudante'))['matriculaEstudante__max']
+            if ultimoNumero:
+                ultimoNumero = int(ultimoNumero[-4:])
+            else:
+                ultimoNumero = 0
 
-            while True:
-                numeroAleatorio = random.randint(1000,9999)
-                matricula = f"{anoAtual}{semestre}{numeroAleatorio}"
-                
-                if not Estudante.objects.filter(matriculaEstudante=matricula).exists():
-                    self.matriculaEstudante = matricula
-                    return super(Estudante,self).save()
+            novoNUmero = ultimoNumero + 1
+
+            matricula = f"{anoAtual}{semestre}{novoNUmero:04d}"
+            self.matriculaEstudante = matricula
+        super().save()

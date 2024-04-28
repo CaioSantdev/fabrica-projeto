@@ -1,4 +1,3 @@
-from .all import *
 from .Dashboard import *
 from .Listar import *
 from .Cadastro import *
