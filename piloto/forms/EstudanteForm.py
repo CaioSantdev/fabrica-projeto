@@ -19,9 +19,11 @@ class EstudanteForm(forms.ModelForm):
             }),
             "cpfEstudante":forms.TextInput(attrs={
                 'placeholder': 'Apenas Numeros'
-            })
+            }),
+             "dataAniversario":forms.DateInput(attrs={'type':'date'}),
         }
-        
         error_messages = {
-            "invalid-feedback": "Este CPF já foi cadastrado"
+            'cpfEstudante':{
+                'unique': "Ja existe um estudante com este CPF"
+            }
         }

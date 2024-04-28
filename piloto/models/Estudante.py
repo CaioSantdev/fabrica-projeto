@@ -1,6 +1,6 @@
 from django.db import models
 from piloto.models import Cursos
-import datetime, random
+import datetime
 
 SITUACAO = {
     1: "Vinculado",
@@ -32,7 +32,7 @@ class Estudante(models.Model):
         verbose_name = "Estudante"
         verbose_name_plural = "Estudantes"
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if not self.matriculaEstudante:
             anoAtual = datetime.datetime.now().year
             semestre = 1 if datetime.datetime.now().month <= 6 else 2 
@@ -50,4 +50,18 @@ class Estudante(models.Model):
 
             matricula = f"{anoAtual}{semestre}{novoNUmero:04d}"
             self.matriculaEstudante = matricula
-        super().save()
+            
+        if self.cpfEstudante:
+            self.cpfEstudante = self.format_cpf(self.cpfEstudante)
+            
+        super().save(*args, **kwargs)
+        
+        
+    def format_cpf(self, cpf):
+    # Verifica se o CPF já está formatado
+        if '.' in cpf and '-' in cpf:
+            return cpf
+
+    # Formata o CPF com pontos e traços
+        cpf = cpf.zfill(11)
+        return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
