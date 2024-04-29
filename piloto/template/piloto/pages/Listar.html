@@ -9,6 +9,16 @@
 
 {% block conteudo %}
 
+<form action="" method="POST" enctype="multipart/form-data">
+  <div>
+    {% csrf_token %}
+    {{form|crispy}}
+  </div>
+  <div>
+    <button class="btn btn-primary" typy="subimt">Filtrar</button>
+  </div>
+</form>
+
 <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -20,7 +30,7 @@
         <th scope="col">Campus</th>
         <th scope="col">Situaçao</th>
         <th scope="col">Modo de Entrada</th>
-        <th scope="col">Aniversário</th>
+        <th scope="col">Açoes</th>
       </tr>
     </thead>
     <tbody>
@@ -34,7 +44,7 @@
                 <td>{{estudantes.cursoEstudante.campus.nomeCampus}}</td>
                 <td>{{estudantes.get_situacaoEstudante_display}}</td>
                 <td>{{estudantes.get_modoDeEntrada_display}}</td>
-                <td>{{estudantes.dataAniversario}}</td>
+                <td><button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button> <button type="button" class="btn btn-warning"><i class="fa fa-magic" aria-hidden="true"></i></button></td>
             </tr>
         {% endfor %}
     </tbody>

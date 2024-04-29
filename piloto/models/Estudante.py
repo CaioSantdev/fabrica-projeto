@@ -51,17 +51,17 @@ class Estudante(models.Model):
             matricula = f"{anoAtual}{semestre}{novoNUmero:04d}"
             self.matriculaEstudante = matricula
             
-        if self.cpfEstudante:
-            self.cpfEstudante = self.format_cpf(self.cpfEstudante)
+        # if self.cpfEstudante:
+        #     self.cpfEstudante = self.format_cpf(self.cpfEstudante)
             
         super().save(*args, **kwargs)
         
         
-    def format_cpf(self, cpf):
-    # Verifica se o CPF já está formatado
-        if '.' in cpf and '-' in cpf:
-            return cpf
+    # def format_cpf(self, cpf):
+    # # Verifica se o CPF já está formatado
+    #     if '.' in cpf and '-' in cpf:
+    #         return cpf
 
-    # Formata o CPF com pontos e traços
-        cpf = cpf.zfill(11)
-        return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+    # # Formata o CPF com pontos e traços
+    #     cpf = cpf.zfill(11)
+    #     return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
