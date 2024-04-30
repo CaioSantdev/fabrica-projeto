@@ -2,6 +2,12 @@ from django import forms
 from piloto.models import Estudante
 
 class EstudanteForm(forms.ModelForm):
+    cpfEstudante= forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder':'Somente Numeros',
+        'maxlenght':11
+        }),
+        label='CPF do Estudante',
+        error_messages={'unique':"Esse CPF já foi cadastrado!"})
     class Meta:
         model = Estudante
         fields = ["nomeEstudante",
@@ -11,19 +17,9 @@ class EstudanteForm(forms.ModelForm):
                   "cursoEstudante",
                   "situacaoEstudante",
                   "modoDeEntrada"]
-        
-        
         widgets = {
             "nomeEstudante": forms.TextInput(attrs={
                 'placeholder': 'Seu nome aqui'
             }),
-            "cpfEstudante":forms.TextInput(attrs={
-                'placeholder': 'Apenas Numeros'
-            }),
              "dataAniversario":forms.DateInput(attrs={'type':'date'}),
-        }
-        error_messages = {
-            'cpfEstudante':{
-                'unique': "Ja existe um estudante com este CPF"
-            }
         }
