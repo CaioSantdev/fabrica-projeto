@@ -1,15 +1,32 @@
-from django.views import View
+from django.views.generic import ListView
 from piloto.models import Estudante
-from piloto.forms import FiltroForm
+from piloto.forms import FiltroForm, EstudanteForm, EditForm
 from django.shortcuts import render
-from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 
-class Listar(View):
-    def get(self,request):
-        todosEstudantes = Estudante.objects.all()
+class Listar(ListView):
+    model = Estudante
+    template_name = 'piloto/pages/Listar.html'
+    context_object_name = 'estudantes'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        filterCampus = self.request.GET.get('campus', None)
+        filterNomeCurso = self.request.GET.get('nomeCurso', None)
+        # print(f'Nome: {filterNomeCurso} e Campus: {filterCampus}')
+        
+        print(f'Request: {self.request.GET}')
+        
+        if filterCampus:
+            self.object_list = self.object_list.filter(cursoEstudante__campus__id=filterCampus)
+        
+        if filterNomeCurso:
+            self.object_list = self.object_list.filter(cursoEstudante__id=filterNomeCurso)
+            
         form = FiltroForm()
+        formEstudante = EditForm()
         context = {
-            'estudantes': todosEstudantes,
-            'form': form
+            "form": form,
+            "estudanteForm": formEstudante,
+            "estudantes": self.object_list
         }
-        return render(request,'piloto/pages/Listar.html',context=context)
+        return context

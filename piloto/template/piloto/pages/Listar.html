@@ -2,14 +2,14 @@
 {% load crispy_forms_tags %}
 {% block titulo %}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h2 col-5 center container mb-0 text-gray-800">Todos Estudantes</h1>
+  <h1 class="h2 col-5 center container mb-0 text-gray-800">Todos Estudantes</h1>
 </div>
 {% endblock titulo %}
 
 
 {% block conteudo %}
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="" method="GET">
   <div>
     {% csrf_token %}
     {{form|crispy}}
@@ -20,35 +20,72 @@
 </form>
 
 <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nome</th>
-        <th scope="col">CPF</th>
-        <th scope="col">Matricula</th>
-        <th scope="col">Curso</th>
-        <th scope="col">Campus</th>
-        <th scope="col">Situaçao</th>
-        <th scope="col">Modo de Entrada</th>
-        <th scope="col">Açoes</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for estudantes in estudantes %}
-            <tr>
-                <td>{{estudantes.id}}</td>
-                <td>{{estudantes.nomeEstudante}}</td>
-                <td>{{estudantes.cpfEstudante}}</td>
-                <td>{{estudantes.matriculaEstudante}}</td>
-                <td>{{estudantes.cursoEstudante.nomeCurso}}</td>
-                <td>{{estudantes.cursoEstudante.campus.nomeCampus}}</td>
-                <td>{{estudantes.get_situacaoEstudante_display}}</td>
-                <td>{{estudantes.get_modoDeEntrada_display}}</td>
-                <td><button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button> <button type="button" class="btn btn-warning"><i class="fa fa-magic" aria-hidden="true"></i></button></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-  </table>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">CPF</th>
+      <th scope="col">Matricula</th>
+      <th scope="col">Curso</th>
+      <th scope="col">Campus</th>
+      <th scope="col">Situaçao</th>
+      <th scope="col">Modo de Entrada</th>
+      <th scope="col">Açoes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for estudante in estudantes %}
+    <tr>
+      <td>{{estudante.id}}</td>
+      <td>{{estudante.nomeEstudante}}</td>
+      <td>{{estudante.cpfEstudante}}</td>
+      <td>{{estudante.matriculaEstudante}}</td>
+      <td>{{estudante.cursoEstudante.nomeCurso}}</td>
+      <td>{{estudante.cursoEstudante.campus.nomeCampus}}</td>
+      <td>{{estudante.get_situacaoEstudante_display}}</td>
+      <td>{{estudante.get_modoDeEntrada_display}}</td>
+      <td>
+        <button type="button" class="btn btn-danger">
+          <i class="fa fa-trash"></i>
+        </button>
+
+        <button type="button" class="btn btn-primary btn-edit" data-toggle="modal"
+          data-target="#ExemploModalCentralizado" 
+          data-id="{{estudante.id}}"
+          data-nomeEstudante="{{estudante.nomeEstudante}}"
+          data-situacaoEstudante="{{estudante.get_situacaoEstudante_display}}"
+          >
+          <i class="fa fa-magic" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!-- Modal -->
+<form action="" method="POST">
+  <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
+    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="TituloModalCentralizado">Editar Estudante</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{estudanteForm|crispy}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  <script>
+        $('#id_nomeEstudante').val($(this).data('nomeEstudante'))
+  </script>
 {% endblock conteudo %}
-
-
