@@ -3,7 +3,7 @@ from piloto.models import Estudante
 from piloto.forms import FiltroForm, EstudanteForm, EditForm
 from django.shortcuts import render
 
-class Listar(ListView):
+class ListarView(ListView):
     model = Estudante
     template_name = 'piloto/pages/Listar.html'
     context_object_name = 'estudantes'

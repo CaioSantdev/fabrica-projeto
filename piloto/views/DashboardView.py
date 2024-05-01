@@ -2,7 +2,7 @@ from django.views import View
 from piloto.models import Estudante,Campus,Cursos
 from django.shortcuts import render
 
-class Dashboard(View):
+class DashboardView(View):
     def get(self,request):
         estudantes = Estudante.objects.all()
         cursos = Cursos.objects.all()

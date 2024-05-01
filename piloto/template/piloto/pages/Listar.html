@@ -8,16 +8,17 @@
 
 
 {% block conteudo %}
-
-<form action="" method="GET">
-  <div>
-    {% csrf_token %}
-    {{form|crispy}}
-  </div>
-  <div>
-    <button class="btn btn-primary" typy="subimt">Filtrar</button>
-  </div>
-</form>
+<div class="form-filtrar ml-3 row justify-content">
+  <form action="" method="GET">
+    <div class="row">
+      {% csrf_token %}
+      {{form|crispy}}
+      <button class="btn btn-primary btn-sm ml-3 mb-3 " type="subimt">Filtrar</button>
+    </div>
+    <div>
+    </div>
+  </form>
+</div>
 
 <table class="table">
   <thead class="thead-dark">

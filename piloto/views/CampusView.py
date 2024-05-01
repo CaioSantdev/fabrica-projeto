@@ -2,7 +2,7 @@ from django.views import View
 from piloto.forms import CampusForm
 from django.shortcuts import render
 
-class Campus(View):
+class CampusView(View):
     def get(self,request):
         form = CampusForm()
         context = {

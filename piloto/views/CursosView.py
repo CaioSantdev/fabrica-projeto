@@ -1,17 +1,17 @@
 from django.views import View
-from piloto.forms import EstudanteForm
+from piloto.forms import CursosForm
 from django.shortcuts import render
 
-class Cadastro(View):
+class CursosView(View):
     def get(self,request):
-        form = EstudanteForm()
+        form = CursosForm()
         context = {
             "form": form
         }
-        return render(request,'piloto/pages/Cadastro.html',context=context)
+        return render(request,'piloto/pages/Cursos.html',context=context)
 
     def post(self,request):
-        form = EstudanteForm(request.POST,request.FILES)
+        form = CursosForm(request.POST)
         if form.is_valid():
             print(f'Request: {request.POST}')
             form.save()
@@ -20,4 +20,4 @@ class Cadastro(View):
         context = {
             "form":form
         }
-        return render(request,'piloto/pages/Cadastro.html',context=context)
+        return render(request,'piloto/pages/Cursos.html',context=context)
