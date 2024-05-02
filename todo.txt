@@ -1,0 +1,5 @@
+To Do:
+[] - Limpar form e mostrar mensagem de sucesso após cadastro
+[X] - Função Editar
+[] - Função Excluir
+[] - Graficos 
