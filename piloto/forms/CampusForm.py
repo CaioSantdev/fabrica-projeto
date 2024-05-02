@@ -4,4 +4,4 @@ from piloto.models import Campus
 class CampusForm(forms.ModelForm):
     class Meta:
         model = Campus
-        fields = ["nomeCampus",]
+        fields = ["nome",]

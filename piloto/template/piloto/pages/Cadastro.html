@@ -6,15 +6,23 @@
 </div>
 {% endblock titulo %}
 
-
 {% block conteudo %}
+<div class="main-content center container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 <form action="" method="POST" enctype="multipart/form-data">
     <div>
         {% csrf_token %}
         {{form|crispy}}
     </div>
     <div>
-        <button class="btn btn-primary" typy="subimt">Salvar</button>
+        <button class="btn btn-primary" type="subimt">Salvar</button>
     </div>
 </form>
 {% endblock conteudo %}

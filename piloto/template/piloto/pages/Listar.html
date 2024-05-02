@@ -38,12 +38,12 @@
     {% for estudante in estudantes %}
     <tr>
       <td>{{estudante.id}}</td>
-      <td>{{estudante.nomeEstudante}}</td>
+      <td>{{estudante.nome}}</td>
       <td>{{estudante.cpfEstudante}}</td>
-      <td>{{estudante.matriculaEstudante}}</td>
-      <td>{{estudante.cursoEstudante.nomeCurso}}</td>
-      <td>{{estudante.cursoEstudante.campus.nomeCampus}}</td>
-      <td>{{estudante.get_situacaoEstudante_display}}</td>
+      <td>{{estudante.matricula}}</td>
+      <td>{{estudante.curso.nome}}</td>
+      <td>{{estudante.curso.campus.nome}}</td>
+      <td>{{estudante.get_situacao_display}}</td>
       <td>{{estudante.get_modoDeEntrada_display}}</td>
       <td>
         <button type="button" class="btn btn-danger">
@@ -53,8 +53,9 @@
         <button type="button" class="btn btn-primary btn-edit" data-toggle="modal"
           data-target="#ExemploModalCentralizado" 
           data-id="{{estudante.id}}"
-          data-nomeEstudante="{{estudante.nomeEstudante}}"
-          data-situacaoEstudante="{{estudante.get_situacaoEstudante_display}}"
+          data-nome="{{estudante.nome}}"
+          data-situacao="{{estudante.situacao}}"
+          data-matricula="{{estudante.matricula}}"
           >
           <i class="fa fa-magic" aria-hidden="true"></i>
         </button>
@@ -77,6 +78,7 @@
         </div>
         <div class="modal-body">
           <form action="" method="POST">
+            <input type="hidden" id="id_id">
             {% csrf_token %}
             {{estudanteForm|crispy}}
           </form>
@@ -92,21 +94,23 @@
 <script>
   $(document).ready(function() {
     $('.btn-edit').click(function() {
-      // Captura os dados do estudante do botão clicado
       var id = $(this).data('id');
-      var nome = $(this).data('nomeestudante');
-      var situacao = $(this).data('situacaoestudante');
+      var nome = $(this).data('nome');
+      var situacao = $(this).data('situacao');
+      var matricula = $(this).data('matricula');
+      console.log(nome)
       console.log(situacao)
       console.log(id)
+      console.log(matricula)
       
-      // Atualiza os campos do modal com os dados capturados
-      $('#id_id').val(id); // Adapte os IDs de acordo com os campos no seu formulário
-      $('#id_nomeEstudante').val(nome);
-      $('#id_situacaoEstudante').val(situacao);
+      $('#id_id').val(id); 
+      $('#id_nome').val(nome);
+      $('#id_matricula').val(matricula);
+      $(`#id_situacao option[value=${situacao}]`).attr('selected','selected')
       
       var formAction = "/editar-estudante/" + id + "/";
       $('#editarEstudanteForm').attr('action', formAction);
-      // Abre o modal
+      
       $('#ExemploModalCentralizado').modal('show');
     });
   });

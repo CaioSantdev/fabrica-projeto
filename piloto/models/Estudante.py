@@ -1,5 +1,5 @@
 from django.db import models
-from piloto.models import Cursos
+from piloto.models import Curso
 import datetime
 
 SITUACAO = {
@@ -15,14 +15,14 @@ MODO_DE_ENTRADA ={
 }
 
 class Estudante(models.Model):
-    nomeEstudante = models.CharField(verbose_name="Nome do Estudante",max_length=100)
+    nome = models.CharField(verbose_name="Nome do Estudante",max_length=256)
     cpfEstudante = models.CharField(verbose_name="CPF do Estudante",max_length=14,unique=True)
-    matriculaEstudante = models.CharField(verbose_name="Matricula",max_length=9,unique=True,)
+    matricula = models.CharField(verbose_name="Matricula",max_length=9,unique=True,)
     dataAniversario = models.DateField(verbose_name="Data de aniversário",null=True)
     eImagem = models.ImageField(verbose_name="Foto do Estudante",upload_to="piloto/img/%Y/%m/%d")
     # problema de d0n_delete CASCADE -> RESOLVER!!
-    cursoEstudante = models.ForeignKey(Cursos,verbose_name="Curso do Estudante",on_delete=models.CASCADE)
-    situacaoEstudante = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default="VINCULADO")
+    curso = models.ForeignKey(Curso,verbose_name="Curso do Estudante",on_delete=models.CASCADE)
+    situacao = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default="VINCULADO")
     modoDeEntrada = models.IntegerField(verbose_name="Modo de Entrada",choices=MODO_DE_ENTRADA,default="SISU")
 
     def __str__(self):
@@ -33,14 +33,14 @@ class Estudante(models.Model):
         verbose_name_plural = "Estudantes"
 
     def save(self, *args, **kwargs):
-        if not self.matriculaEstudante:
+        if not self.matricula:
             anoAtual = datetime.datetime.now().year
             semestre = 1 if datetime.datetime.now().month <= 6 else 2 
             
             # Obtendo o último número da matrícula
             ultimoNumero = Estudante.objects.filter(
-                matriculaEstudante__startswith=f"{anoAtual}{semestre}"
-            ).aggregate(models.Max('matriculaEstudante'))['matriculaEstudante__max']
+                matricula__startswith=f"{anoAtual}{semestre}"
+            ).aggregate(models.Max('matricula'))['matricula__max']
             if ultimoNumero:
                 ultimoNumero = int(ultimoNumero[-4:])
             else:
@@ -49,7 +49,7 @@ class Estudante(models.Model):
             novoNUmero = ultimoNumero + 1
 
             matricula = f"{anoAtual}{semestre}{novoNUmero:04d}"
-            self.matriculaEstudante = matricula
+            self.matricula = matricula
             
         # if self.cpfEstudante:
         #     self.cpfEstudante = self.format_cpf(self.cpfEstudante)

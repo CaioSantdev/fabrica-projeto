@@ -10,15 +10,15 @@ class EstudanteForm(forms.ModelForm):
         error_messages={'unique':"Esse CPF já foi cadastrado!"})
     class Meta:
         model = Estudante
-        fields = ["nomeEstudante",
+        fields = ["nome",
                   "cpfEstudante",
                   "dataAniversario",
                   "eImagem",
-                  "cursoEstudante",
-                  "situacaoEstudante",
+                  "curso",
+                  "situacao",
                   "modoDeEntrada"]
         widgets = {
-            "nomeEstudante": forms.TextInput(attrs={
+            "nome": forms.TextInput(attrs={
                 'placeholder': 'Seu nome aqui'
             }),
              "dataAniversario":forms.DateInput(attrs={'type':'date'}),

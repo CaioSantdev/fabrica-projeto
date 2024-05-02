@@ -17,10 +17,10 @@ class ListarView(ListView):
         print(f'Request: {self.request.GET}')
         
         if filterCampus:
-            self.object_list = self.object_list.filter(cursoEstudante__campus__id=filterCampus)
+            self.object_list = self.object_list.filter(curso__campus__id=filterCampus)
         
         if filterNomeCurso:
-            self.object_list = self.object_list.filter(cursoEstudante__id=filterNomeCurso)
+            self.object_list = self.object_list.filter(curso__id=filterNomeCurso)
             
         form = FiltroForm()
         formEstudante = EditForm()

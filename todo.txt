@@ -3,3 +3,5 @@ To Do:
 [X] - Função Editar
 [] - Função Excluir
 [] - Graficos 
+[] - Arrumar models
+[] - Arrumar Admin
