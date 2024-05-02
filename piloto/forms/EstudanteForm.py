@@ -4,7 +4,7 @@ from piloto.models import Estudante
 class EstudanteForm(forms.ModelForm):
     cpfEstudante= forms.CharField(widget=forms.TextInput(attrs={
         'placeholder':'Somente Numeros',
-        'maxlenght':11
+        'maxlength':11
         }),
         label='CPF do Estudante',
         error_messages={'unique':"Esse CPF já foi cadastrado!"})

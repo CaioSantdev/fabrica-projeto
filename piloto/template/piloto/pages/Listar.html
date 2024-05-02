@@ -19,7 +19,7 @@
     </div>
   </form>
 </div>
-
+<h5>Total Estudantes: <i class="text-primary">{{totalEstudantes}}</i></h5>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -64,7 +64,7 @@
   </tbody>
 </table>
 <!-- Modal -->
-<form action="" method="POST">
+<form action="" id="editarEstudanteForm" method="POST">
   <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
     aria-labelledby="TituloModalCentralizado" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -76,7 +76,10 @@
           </button>
         </div>
         <div class="modal-body">
-          {{estudanteForm|crispy}}
+          <form action="" method="POST">
+            {% csrf_token %}
+            {{estudanteForm|crispy}}
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -86,7 +89,26 @@
     </div>
   </div>
 </form>
-  <script>
-        $('#id_nomeEstudante').val($(this).data('nomeEstudante'))
-  </script>
+<script>
+  $(document).ready(function() {
+    $('.btn-edit').click(function() {
+      // Captura os dados do estudante do botão clicado
+      var id = $(this).data('id');
+      var nome = $(this).data('nomeestudante');
+      var situacao = $(this).data('situacaoestudante');
+      console.log(situacao)
+      console.log(id)
+      
+      // Atualiza os campos do modal com os dados capturados
+      $('#id_id').val(id); // Adapte os IDs de acordo com os campos no seu formulário
+      $('#id_nomeEstudante').val(nome);
+      $('#id_situacaoEstudante').val(situacao);
+      
+      var formAction = "/editar-estudante/" + id + "/";
+      $('#editarEstudanteForm').attr('action', formAction);
+      // Abre o modal
+      $('#ExemploModalCentralizado').modal('show');
+    });
+  });
+</script>
 {% endblock conteudo %}

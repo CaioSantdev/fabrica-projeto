@@ -24,9 +24,11 @@ class ListarView(ListView):
             
         form = FiltroForm()
         formEstudante = EditForm()
+        totalEstudantesFiltro = self.object_list.count()
         context = {
             "form": form,
             "estudanteForm": formEstudante,
-            "estudantes": self.object_list
+            "estudantes": self.object_list,
+            "totalEstudantes": totalEstudantesFiltro
         }
         return context
