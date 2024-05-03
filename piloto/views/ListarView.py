@@ -11,8 +11,9 @@ class ListarView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         filterCampus = self.request.GET.get('campus', None)
-        filterNomeCurso = self.request.GET.get('nomeCurso', None)
-        # print(f'Nome: {filterNomeCurso} e Campus: {filterCampus}')
+        filterNomeCurso = self.request.GET.get('nome', None)
+        filterSituacao = self.request.GET.get('situacao', None)
+        print(f'Nome: {filterNomeCurso} e Campus: {filterCampus}, situacao: {filterSituacao}')
         
         print(f'Request: {self.request.GET}')
         
@@ -21,6 +22,9 @@ class ListarView(ListView):
         
         if filterNomeCurso:
             self.object_list = self.object_list.filter(curso__id=filterNomeCurso)
+        
+        if filterSituacao:
+            self.object_list = self.object_list.filter(situacao=filterSituacao)
             
         form = FiltroForm()
         formEstudante = EditForm()

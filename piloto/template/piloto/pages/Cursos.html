@@ -1,13 +1,16 @@
 {% extends "global/index.html" %}
 {% load crispy_forms_tags %}
 {% block titulo %}
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h2 col-5 center container mb-0 text-gray-800">Cadastre novos Cursos</h1>
+<div class="d-sm-flex align-items-center justify-content-center mb-4">
+    <h1 class="h2 text-center text-gray-800">Cadastre novos Cursos</h1>
 </div>
 {% endblock titulo %}
 
 
 {% block conteudo %}
+
+{% include "global/message.html" %}
+
 <form action="" method="POST" enctype="multipart/form-data">
     <div>
         {% csrf_token %}

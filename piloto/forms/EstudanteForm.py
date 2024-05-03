@@ -8,6 +8,7 @@ class EstudanteForm(forms.ModelForm):
         }),
         label='CPF do Estudante',
         error_messages={'unique':"Esse CPF já foi cadastrado!"})
+    situacao = forms.CharField(initial='1', widget=forms.HiddenInput())
     class Meta:
         model = Estudante
         fields = ["nome",
@@ -15,11 +16,13 @@ class EstudanteForm(forms.ModelForm):
                   "dataAniversario",
                   "eImagem",
                   "curso",
-                  "situacao",
                   "modoDeEntrada"]
         widgets = {
             "nome": forms.TextInput(attrs={
-                'placeholder': 'Seu nome aqui'
+                'placeholder': 'Nome completo'
             }),
              "dataAniversario":forms.DateInput(attrs={'type':'date'}),
+             "situacao": forms.Select(attrs={
+                 "disabled":'disabled',
+             })
         }

@@ -3,7 +3,8 @@ from .models import *
 # Register your models here.
 
 class EstudanteAdmin(admin.ModelAdmin):
-    readonly_fields = ['matricula']
+    readonly_fields = ['matricula',]
+    # readonly_fields = ['situacao']
 
 class CursosAdmin(admin.ModelAdmin):
     ...

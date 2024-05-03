@@ -1,7 +1,9 @@
 To Do:
-[] - Limpar form e mostrar mensagem de sucesso após cadastro
+[X] - Limpar form e mostrar mensagem de sucesso após cadastro
 [X] - Função Editar
 [] - Função Excluir
 [] - Graficos 
 [] - Arrumar models
 [] - Arrumar Admin
+[] - Arrumar Last do django
+[] - Arrumar funcao save

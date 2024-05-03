@@ -1,15 +1,23 @@
 from django import forms
-from piloto.models import Curso, Campus
+from piloto.models import Curso, Campus, Estudante
 
 
 class FiltroForm(forms.ModelForm):
+    SITUACAO = {
+    "":"------",
+    1: "Vinculado",
+    2: "Formado",
+    3: "Jubilado",
+    4: "Evadido",
+    5: "INATIVO",
+    }
     nome = forms.ModelChoiceField(required=False,label="Nome do Curso",queryset=Curso.objects.all(),empty_label="-----")
-    # campus = forms.ModelChoiceField(queryset=Campus.objects.all(),empty_label=None)
-    campus = forms.ModelChoiceField(required=False,queryset=Campus.objects.all(),empty_label="------")
+    campus = forms.ModelChoiceField(required=False,queryset=Campus.objects.all(),empty_label="------")  
+    situacao = forms.ChoiceField(required=False, choices=SITUACAO, label="Situação do Estudante")
+    
     def __init__(self,*args, **kwargs):
         super(FiltroForm,self).__init__(*args, **kwargs)
         self.fields["nome"].widget.attrs["id"] = "id_nomeCurso"
     class Meta:
         model = Curso
-        fields = ["nome",
-                  "campus"]
+        fields = ["nome","campus"]

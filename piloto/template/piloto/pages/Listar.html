@@ -1,8 +1,8 @@
 {% extends "global/index.html" %}
 {% load crispy_forms_tags %}
 {% block titulo %}
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h2 col-5 center container mb-0 text-gray-800">Todos Estudantes</h1>
+<div class="d-sm-flex align-items-center justify-content-center mb-4">
+  <h1 class="h2 text-center text-gray-800">Todos os Estudantes Cadastrados</h1>
 </div>
 {% endblock titulo %}
 
@@ -36,6 +36,29 @@
   </thead>
   <tbody>
     {% for estudante in estudantes %}
+    {% if estudante.get_situacao_display == 'INATIVO' %}
+    <tr class="table-danger">
+      <td>{{estudante.id}}</td>
+      <td>{{estudante.nome}}</td>
+      <td>{{estudante.cpfEstudante}}</td>
+      <td>{{estudante.matricula}}</td>
+      <td>{{estudante.curso.nome}}</td>
+      <td>{{estudante.curso.campus.nome}}</td>
+      <td>{{estudante.get_situacao_display}}</td>
+      <td>{{estudante.get_modoDeEntrada_display}}</td>
+      <td>
+        <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+          <i class="fa fa-trash"></i>
+        </button>
+
+        <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+          <i class="fa fa-magic" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+    {% else %}
     <tr>
       <td>{{estudante.id}}</td>
       <td>{{estudante.nome}}</td>
@@ -46,21 +69,18 @@
       <td>{{estudante.get_situacao_display}}</td>
       <td>{{estudante.get_modoDeEntrada_display}}</td>
       <td>
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
           <i class="fa fa-trash"></i>
         </button>
 
-        <button type="button" class="btn btn-primary btn-edit" data-toggle="modal"
-          data-target="#ExemploModalCentralizado" 
-          data-id="{{estudante.id}}"
-          data-nome="{{estudante.nome}}"
-          data-situacao="{{estudante.situacao}}"
-          data-matricula="{{estudante.matricula}}"
-          >
+        <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
           <i class="fa fa-magic" aria-hidden="true"></i>
         </button>
       </td>
     </tr>
+    {% endif %}
     {% endfor %}
   </tbody>
 </table>
@@ -91,9 +111,31 @@
     </div>
   </div>
 </form>
+<form action="" method="POST">
+  <div class="modal fade" id="deleteModalCentralizado" tabindex="-1" role="dialog"
+  aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TituloModalCentralizado">Apagar Estudante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="hidden" id="id_id">
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-danger">Apagar</button>
+      </div>
+    </div>
+  </div>
+</form>
 <script>
-  $(document).ready(function() {
-    $('.btn-edit').click(function() {
+  $(document).ready(function () {
+    $('.btn-edit').click(function () {
       var id = $(this).data('id');
       var nome = $(this).data('nome');
       var situacao = $(this).data('situacao');
@@ -102,16 +144,36 @@
       console.log(situacao)
       console.log(id)
       console.log(matricula)
-      
-      $('#id_id').val(id); 
+
+      $('#id_id').val(id);
       $('#id_nome').val(nome);
       $('#id_matricula').val(matricula);
-      $(`#id_situacao option[value=${situacao}]`).attr('selected','selected')
-      
+      $(`#id_situacao option[value=${situacao}]`).attr('selected', 'selected')
+
       var formAction = "/editar-estudante/" + id + "/";
       $('#editarEstudanteForm').attr('action', formAction);
-      
+
       $('#ExemploModalCentralizado').modal('show');
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $('.btn-del').click(function () {
+      var id = $(this).data('id');
+      var nome = $(this).data('nome');
+      var situacao = $(this).data('situacao');
+      var matricula = $(this).data('matricula');
+      console.log(nome)
+      console.log(situacao)
+      console.log(id)
+      console.log(matricula)
+
+      var formAction = "/apagar-estudante/" + id + "/";
+      $('#deleteModalCentralizado').attr('action', formAction);
+
+
+      $('#deleteModalCentralizado').modal('show');
     });
   });
 </script>

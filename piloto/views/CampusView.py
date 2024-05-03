@@ -1,6 +1,7 @@
 from django.views import View
 from piloto.forms import CampusForm
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 class CampusView(View):
     def get(self,request):
@@ -14,7 +15,9 @@ class CampusView(View):
         form = CampusForm(request.POST)
         if form.is_valid():
             print(f'Request: {request.POST}')
+            messages.success(request, "Campus cadastrado com sucesso.")
             form.save()
+            return redirect("/campus/")
         else:
             print(form.errors)
         context = {

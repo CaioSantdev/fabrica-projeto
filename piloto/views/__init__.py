@@ -4,3 +4,4 @@ from .CadastroView import *
 from .CursosView import *
 from .CampusView import *
 from .EditarEstudanteView import *
+from .ApagarEstudanteView import *
