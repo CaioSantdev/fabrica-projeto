@@ -1,7 +1,7 @@
 from django.db import models
 
 class Campus(models.Model):
-    nome = models.CharField(verbose_name="Nome do Campus",max_length=100)
+    nome = models.CharField(verbose_name="Nome do Campus",max_length=256)
 
     class Meta:
         verbose_name = "Campus"
