@@ -24,5 +24,11 @@ class EstudanteForm(forms.ModelForm):
              "dataAniversario":forms.DateInput(attrs={'type':'date'}),
              "situacao": forms.Select(attrs={
                  "disabled":'disabled',
-             })
+             }),
+            'curso':forms.Select(attrs={
+                "class":"form-control"
+            }),
+            'modoDeEntrada':forms.Select(attrs={
+                "class":"form-control"
+            })
         }

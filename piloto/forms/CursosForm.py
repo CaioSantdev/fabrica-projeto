@@ -13,3 +13,8 @@ class CursosForm(forms.ModelForm):
         help_texts = {
             'campus': 'Selecione o campus onde o curso é ministrado.'
         }
+        widgets = {
+            'campus':forms.Select(attrs={
+                "class":"form-control"
+            })
+        }

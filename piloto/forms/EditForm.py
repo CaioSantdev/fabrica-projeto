@@ -11,3 +11,9 @@ class EditForm(forms.ModelForm):
     class Meta:
         model = Estudante
         fields = ["nome","matricula","situacao"]
+        
+        widgets = {
+            "situacao": forms.Select(attrs={
+                "class": "form-control"
+            })
+        }
