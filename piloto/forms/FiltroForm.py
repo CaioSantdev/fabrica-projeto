@@ -18,6 +18,8 @@ class FiltroForm(forms.ModelForm):
     def __init__(self,*args, **kwargs):
         super(FiltroForm,self).__init__(*args, **kwargs)
         self.fields["nome"].widget.attrs["id"] = "id_nomeCurso"
+        self.fields["situacao"].widget.attrs["id"] = "id_situacaoEstudante"
+        
         self.fields["nome"].widget.attrs["class"] = "form-control ml-20"
         self.fields["campus"].widget.attrs["class"] = "form-control ml-20"
         self.fields["situacao"].widget.attrs["class"] = "form-control ml-20"

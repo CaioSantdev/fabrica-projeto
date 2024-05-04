@@ -84,6 +84,7 @@
     {% endfor %}
   </tbody>
 </table>
+
 <!-- Modal -->
 <form action="" id="editarEstudanteForm" method="POST">
   <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
@@ -111,9 +112,8 @@
     </div>
   </div>
 </form>
-<form action="" method="POST">
-  <div class="modal fade" id="deleteModalCentralizado" tabindex="-1" role="dialog"
-  aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+
+<div class="modal fade" id="deleteModalCentralizado" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -123,16 +123,17 @@
         </button>
       </div>
       <div class="modal-body">
-          <input type="hidden" id="id_id">
-          {% csrf_token %}
+        <p>Tem certeza de que deseja apagar o estudante <span id="nomeEstudante"></span>?</p>
+        <input type="hidden" name="estudante_id" id="estudante_id">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="submit" class="btn btn-danger">Apagar</button>
+        <button type="button" class="btn btn-danger" id="btn-confirmar-exclusao">Apagar</button>
       </div>
     </div>
   </div>
-</form>
+</div>
+
 <script>
   $(document).ready(function () {
     $('.btn-edit').click(function () {
@@ -157,23 +158,19 @@
     });
   });
 </script>
+
 <script>
   $(document).ready(function () {
     $('.btn-del').click(function () {
       var id = $(this).data('id');
-      var nome = $(this).data('nome');
-      var situacao = $(this).data('situacao');
-      var matricula = $(this).data('matricula');
-      console.log(nome)
-      console.log(situacao)
-      console.log(id)
-      console.log(matricula)
-
       var formAction = "/apagar-estudante/" + id + "/";
-      $('#deleteModalCentralizado').attr('action', formAction);
-
-
+      $('#btn-confirmar-exclusao').attr('data-form-action', formAction);
       $('#deleteModalCentralizado').modal('show');
+    });
+
+    $('#btn-confirmar-exclusao').click(function () {
+      var formAction = $(this).attr('data-form-action');
+      window.location.href = formAction;
     });
   });
 </script>
