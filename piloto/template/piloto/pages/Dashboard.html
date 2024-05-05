@@ -10,7 +10,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="row">
+    <div class="row d-sm-flex align-items-center justify-content-center mb-4">
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -20,7 +20,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Quantidade de Estudantes</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{estudantes}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{estudantesQuantidade}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -38,7 +38,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Quantidade de Cursos</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{cursos}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{cursosQuantidade}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -58,7 +58,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Quantidade de Campus</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{campus}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{campusQuantidade}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -68,6 +68,98 @@
             </div>
         </div>
     </div>
-</div>
+
+    <div style="width: 500px;height: 500px;" class="d-flex justify-content-between pr-10">
+        <canvas id="myChart"></canvas>
+        <canvas id="myDoughnutChart"></canvas>
+    </div>
+
+    <div style="width: 100px;height: 100px;">
+        <canvas id="myDoughnutChart"></canvas>
+    </div>
+
+    <div>
+        <script>
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ nomeDoCampus | safe }},
+                    datasets: [{
+                        label: 'Quantidade de Estudantes por Campus',
+                        data: {{ quantidadeEstudanteCampus | safe }},
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+
+    <div>
+        <script>
+        const ctxDoughnut = document.getElementById('myDoughnutChart');
+            new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ nomeDoCurso | safe }},
+                    datasets: [{
+                        label: 'Quantidade de Estudantes por Campus',
+                        data: {{ quantidadeEstudanteCurso | safe }},
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Quantidade de Estudantes por Curso'
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
 {% endblock conteudo %}
- 

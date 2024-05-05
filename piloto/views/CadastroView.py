@@ -19,6 +19,7 @@ class CadastroView(View):
             form.save()
             return redirect("/cadastro/")
         else:
+            messages.error(request, "Erro ao cadastrar estudante.")
             print(form.errors)
         context = {
             "form":form

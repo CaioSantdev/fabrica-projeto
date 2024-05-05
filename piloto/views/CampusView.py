@@ -19,6 +19,8 @@ class CampusView(View):
             form.save()
             return redirect("/campus/")
         else:
+            messages.error(request, "Erro ao cadastrar campus.")
+            print(form.errors)
             print(form.errors)
         context = {
             "form":form
