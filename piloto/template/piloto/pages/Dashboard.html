@@ -10,7 +10,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="row d-sm-flex align-items-center justify-content-center mb-4">
+    <div class="row d-sm-flex align-items-center justify-content-center mb-2">
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -69,97 +69,99 @@
         </div>
     </div>
 
-    <div style="width: 500px;height: 500px;" class="d-flex justify-content-between pr-10">
-        <canvas id="myChart"></canvas>
-        <canvas id="myDoughnutChart"></canvas>
-    </div>
 
-    <div style="width: 100px;height: 100px;">
-        <canvas id="myDoughnutChart"></canvas>
-    </div>
-
-    <div>
-        <script>
-            const ctx = document.getElementById('myChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: {{ nomeDoCampus | safe }},
-                    datasets: [{
-                        label: 'Quantidade de Estudantes por Campus',
-                        data: {{ quantidadeEstudanteCampus | safe }},
-                        backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                            'rgb(255, 159, 64)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                            'rgb(255, 159, 64)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div style="width: 500px;height: 500px;" class="border border-primary mr-5 ">
+            <canvas id="myChart"></canvas>
+        </div>
+    
+        <div style="width: 500px;height: 500px;" class="border border-primary ml-5">
+            <canvas id="myDoughnutChart"></canvas>
+        </div>
+    
+        <div>
+            <script>
+                const ctx = document.getElementById('myChart');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ nomeDoCampus | safe }},
+                        datasets: [{
+                            label: 'Quantidade de Estudantes por Campus',
+                            data: {{ quantidadeEstudanteCampus | safe }},
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 206, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                            borderColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 206, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-        </script>
-    </div>
-
-    <div>
-        <script>
-        const ctxDoughnut = document.getElementById('myDoughnutChart');
-            new Chart(ctxDoughnut, {
-                type: 'doughnut',
-                data: {
-                    labels: {{ nomeDoCurso | safe }},
-                    datasets: [{
-                        label: 'Quantidade de Estudantes por Campus',
-                        data: {{ quantidadeEstudanteCurso | safe }},
-                        backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                            'rgb(255, 159, 64)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                            'rgb(255, 159, 64)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Quantidade de Estudantes por Curso'
+                });
+            </script>
+        </div>
+    
+        <div>
+            <script>
+            const ctxDoughnut = document.getElementById('myDoughnutChart');
+                new Chart(ctxDoughnut, {
+                    type: 'doughnut',
+                    data: {
+                        labels: {{ nomeDoCurso | safe }},
+                        datasets: [{
+                            label: 'Quantidade de Estudantes por Campus',
+                            data: {{ quantidadeEstudanteCurso | safe }},
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 206, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                            borderColor: [
+                                'rgb(255, 99, 132',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 206, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Quantidade de Estudantes por Curso'
+                            }
                         }
                     }
-                }
-            });
-        </script>
+                });
+            </script>
+        </div>
     </div>
 {% endblock conteudo %}

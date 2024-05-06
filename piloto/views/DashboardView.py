@@ -2,6 +2,18 @@ from django.views import View
 from piloto.models import Estudante,Campus,Curso
 from django.shortcuts import render
 
+def filtroEstudantesPorCampus(self):
+    campi = Campus.objects.all()
+    estudantesPorCampus = {}
+    for campus in campi:
+        cursoCampus = Curso.objects.filter(campus=campus)
+        estudantesCampus = Estudante.objects.filter(curso__in=cursoCampus)
+        estudantesCampusQtd = estudantesCampus.count()
+        estudantesPorCampus[campus.nome] = estudantesCampusQtd
+    nomeDoCampus = list(estudantesPorCampus.keys())
+    quantidadeEstudanteCampus = list(estudantesPorCampus.values())
+
+
 class DashboardView(View):
     def get(self, request):
         # <-------TODOS CURSOS E ESTUDANTES------------>

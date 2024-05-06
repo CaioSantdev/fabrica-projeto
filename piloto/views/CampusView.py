@@ -1,9 +1,12 @@
 from django.views import View
 from piloto.forms import CampusForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 class CampusView(View):
+    formClass = CampusForm
+    nomeTemplate = "piloto/pages/Campus.html"
     def get(self,request):
         form = CampusForm()
         context = {
@@ -12,17 +15,16 @@ class CampusView(View):
         return render(request,'piloto/pages/Campus.html',context=context)
 
     def post(self,request):
-        form = CampusForm(request.POST)
+        form = self.formClass(request.POST)
         if form.is_valid():
             print(f'Request: {request.POST}')
             messages.success(request, "Campus cadastrado com sucesso.")
             form.save()
-            return redirect("/campus/")
+            return HttpResponseRedirect("/campus/")
         else:
             messages.error(request, "Erro ao cadastrar campus.")
-            print(form.errors)
             print(form.errors)
         context = {
             "form":form
         }
-        return render(request,'piloto/pages/Campus.html',context=context)
+        return render(request,self.nomeTemplate,context=context)

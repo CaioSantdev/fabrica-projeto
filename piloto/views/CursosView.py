@@ -1,28 +1,30 @@
 from django.views import View
 from piloto.forms import CursosForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 class CursosView(View):
+    formClass = CursosForm
+    nomeTemplate = "piloto/pages/Cursos.html"
     def get(self,request):
         form = CursosForm()
         context = {
             "form": form
         }
-        return render(request,'piloto/pages/Cursos.html',context=context)
+        return render(request,self.nomeTemplate,context=context)
 
     def post(self,request):
-        form = CursosForm(request.POST)
+        form = self.formClass(request.POST)
         if form.is_valid():
             print(f'Request: {request.POST}')
             messages.success(request, "Curso cadastrado com sucesso.")
             form.save()
-            return redirect("/cursos/")
+            return HttpResponseRedirect("/cursos/")
         else:
             messages.error(request, "Erro ao cadastrar curso.")
-            print(form.errors)
             print(form.errors)
         context = {
             "form":form
         }
-        return render(request,'piloto/pages/Cursos.html',context=context)
+        return render(request,self.nomeTemplate,context=context)
