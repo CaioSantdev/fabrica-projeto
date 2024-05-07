@@ -13,6 +13,7 @@ class DashboardView(View):
         
         # <-------TODOS ESTUDANTES POR CAMPUS------------>
         campi = Campus.objects.all()
+        ## annotate aggregation 
         estudantesPorCampus = {}
         for campus in campi:
             cursoCampus = Curso.objects.filter(campus=campus)
@@ -33,6 +34,11 @@ class DashboardView(View):
         quantidadeEstudanteCurso = list(estudantesPorCurso.values())
         # <--------------------------------------------->
 
+        dadosDash = {}
+        dadosDash['qtdAlunos'] =  5
+        dadosDash['qtdCampus'] = 8
+        
+
         context = {
             'nomeDoCampus': nomeDoCampus,
             'quantidadeEstudanteCampus': quantidadeEstudanteCampus,
@@ -41,7 +47,13 @@ class DashboardView(View):
             'campusQuantidade':campusQtd,
             'nomeDoCurso': nomeDoCurso,
             'quantidadeEstudanteCurso': quantidadeEstudanteCurso,
+            # 'dados': dadosDash
         }
         return render(request, 'piloto/pages/Dashboard.html', context=context)
+    
+    
+    def das(self, qs):
+        
+        pass
         
     

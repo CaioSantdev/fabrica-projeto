@@ -1,4 +1,4 @@
-from .DashboardView import *
+from .DashboardView import DashboardView
 from .ListarView import *
 from .CadastroView import *
 from .CursosView import *

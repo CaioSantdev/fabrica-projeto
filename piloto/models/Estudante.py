@@ -30,6 +30,7 @@ class Estudante(models.Model):
     situacao = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default=1)
     status = models.IntegerField(verbose_name="Status",choices=STATUS,default=1)
     modoDeEntrada = models.IntegerField(verbose_name="Modo de Entrada",choices=MODO_DE_ENTRADA,default=2)
+    
 
     def __str__(self):
         return self.nome
