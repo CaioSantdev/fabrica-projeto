@@ -9,11 +9,11 @@ from django.core.paginator import Paginator
 class ListarView(ListView):
     model = Estudante
     template_name = 'piloto/pages/Listar.html'
-    paginate_by = 3
+    paginate_by = 20
     
     
     def get_queryset(self):
-        qsEstudante = super().get_queryset()
+        qsEstudante = super().get_queryset().order_by("nome")
         filterCampus = self.request.GET.get('campus', None)
         filterNomeCurso = self.request.GET.get('nome', None)
         filterSituacao = self.request.GET.get('situacao', None)

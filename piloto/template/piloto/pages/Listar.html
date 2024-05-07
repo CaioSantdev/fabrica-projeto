@@ -3,9 +3,9 @@
 
 
 {% block conteudo %}
-    <div class="form-filtrar ml-3 row justify-content">
+    <div class="form-filtrar ml-3">
         <form action="" method="GET" class="" >
-        <div class="row">
+        <div class=" d-flex justify-content-between mx-5">
             {% csrf_token %}
             {{form|crispy}}
             <button class="btn btn-primary btn-lg ml-5 mb-5 mt-4" type="subimt">Filtrar</button>

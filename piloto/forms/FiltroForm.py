@@ -12,7 +12,7 @@ class FiltroForm(forms.ModelForm):
     5: "Desvinculado",
     }
     filtro_nome_cpf = forms.CharField(required=False, label="Nome ou CPF", widget=forms.TextInput(attrs={
-        'class': 'form-control ml-20'}))
+        'class': 'form-control'}))
     nome = forms.ModelChoiceField(required=False,label="Nome do Curso",queryset=Curso.objects.all(),empty_label="-----")
     campus = forms.ModelChoiceField(required=False,queryset=Campus.objects.all(),empty_label="------")  
     situacao = forms.ChoiceField(required=False, choices=SITUACAO, label="Situação do Estudante")

@@ -32,7 +32,7 @@ class EstudanteAdmin(admin.ModelAdmin):
             1: "Ativo",
             2: "Inativo",
         }
-        for i in range(10):
+        for i in range(1000):
             nome = faker.name()
             cpf = faker.cpf()
             data_aniversario = faker.date()
