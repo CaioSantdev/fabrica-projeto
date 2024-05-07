@@ -70,45 +70,54 @@
     </div>
 
 
-    <div class="d-flex flex-row bd-highlight mb-3">
-        <div style="width: 500px;height: 500px;" class="border border-primary mr-5 ">
-            <canvas id="myChart"></canvas>
+    <div class="d-flex justify-content-center bd-highlight mb-3">
+        <div  class="border border-primary mr-5 shadow ">
+            <canvas class="p-3" style="width: 500px;height: 500px;" id="myChart"></canvas>
         </div>
     
-        <div style="width: 500px;height: 500px;" class="border border-primary ml-5">
-            <canvas id="myDoughnutChart"></canvas>
+        <div  class="border border-primary ml-5 shadow">
+            <canvas style="width: 500px;height: 500px;" class="mb-5" id="myDoughnutChart"></canvas>
         </div>
     
         <script>
-            const ctx = document.getElementById('myChart');
-                new Chart(ctx, {
+            var dataCurso = {{quantidadeEstudanteCurso}}
+            var backgroundColor= [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 159, 64)',
+                'rgb(110, 34, 29)'
+            ]
+
+            var borderColor = [
+                'rgb(255, 99, 132',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 159, 64)',
+                'rgb(110, 34, 29)',
+            ]
+            const data =  {
+                labels: [""],
+                datasets:[ 
+                    {% for item in nomeDoCampus %}
+                        {
+                            label: '{{item}}',
+                            data: [dataCurso[{{forloop.counter0}}]],
+                            borderColor:borderColor[{{forloop.counter0}}],
+                            backgroundColor:backgroundColor[{{forloop.counter0}}],
+                            borderWidth:1
+                        },
+                    {% endfor %}
+                ]
+            }
+            const ctxCampus = document.getElementById('myChart');
+                new Chart(ctxCampus, {
                     type: 'bar',
-                    data: {
-                        labels: {{ nomeDoCampus | safe }},
-                        datasets: [{
-                            label:'Quantidade de Estudantes por Campus',
-                            data: {{ quantidadeEstudanteCampus | safe }},
-                            backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 206, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)',
-                                'rgb(110, 34, 29)'
-                            ],
-                            borderColor: [
-                                'rgb(255, 99, 132',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 206, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)',
-                                'rgb(110, 34, 29)',
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
+                    data: data,
                     options: {
                         responsive: true,
                         plugins: {
