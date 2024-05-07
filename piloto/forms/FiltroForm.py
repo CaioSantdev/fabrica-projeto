@@ -9,11 +9,14 @@ class FiltroForm(forms.ModelForm):
     2: "Formado",
     3: "Jubilado",
     4: "Evadido",
-    5: "INATIVO",
+    5: "Desvinculado",
     }
+    filtro_nome_cpf = forms.CharField(required=False, label="Nome ou CPF", widget=forms.TextInput(attrs={
+        'class': 'form-control ml-20'}))
     nome = forms.ModelChoiceField(required=False,label="Nome do Curso",queryset=Curso.objects.all(),empty_label="-----")
     campus = forms.ModelChoiceField(required=False,queryset=Campus.objects.all(),empty_label="------")  
     situacao = forms.ChoiceField(required=False, choices=SITUACAO, label="Situação do Estudante")
+
     
     def __init__(self,*args, **kwargs):
         super(FiltroForm,self).__init__(*args, **kwargs)

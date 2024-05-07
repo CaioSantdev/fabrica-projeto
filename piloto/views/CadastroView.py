@@ -9,7 +9,7 @@ class CadastroView(View):
     nomeTemplate = "piloto/pages/Cadastro.html"
     def get(self,request):
         form = EstudanteForm()
-        context = {
+        context = { 
             "form": form
         }
         return render(request,self.nomeTemplate,context=context)

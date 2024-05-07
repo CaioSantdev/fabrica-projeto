@@ -1,5 +1,6 @@
 from django.views import View
 from piloto.forms import CampusForm
+from piloto.models import Campus
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -8,11 +9,13 @@ class CampusView(View):
     formClass = CampusForm
     nomeTemplate = "piloto/pages/Campus.html"
     def get(self,request):
+        
         form = CampusForm()
         context = {
-            "form": form
+            "form": form,
+            "campus": Campus.objects.all()
         }
-        return render(request,'piloto/pages/Campus.html',context=context)
+        return render(request,self.nomeTemplate,context=context)
 
     def post(self,request):
         form = self.formClass(request.POST)

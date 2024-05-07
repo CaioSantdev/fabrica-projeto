@@ -1,177 +1,221 @@
 {% extends "global/index.html" %}
 {% load crispy_forms_tags %}
-{% block titulo %}
-<div class="d-sm-flex align-items-center justify-content-center mb-4">
-  <h1 class="h2 text-center text-gray-800">Todos os Estudantes Cadastrados</h1>
-</div>
-{% endblock titulo %}
 
 
 {% block conteudo %}
-<div class="form-filtrar ml-3 row justify-content">
-  <form action="" method="GET" class="" >
-    <div class="row">
-      {% csrf_token %}
-      {{form|crispy}}
-      <button class="btn btn-primary btn-lg ml-5 mb-5 mt-4" type="subimt">Filtrar</button>
-    </div>
-    <div>
-    </div>
-  </form>
-</div>
-<h5>Total Estudantes: <i class="text-primary">{{totalEstudantes}}</i></h5>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome</th>
-      <th scope="col">CPF</th>
-      <th scope="col">Matrícula</th>
-      <th scope="col">Curso</th>
-      <th scope="col">Campus</th>
-      <th scope="col">Situação</th>
-      <th scope="col">Modo de Entrada</th>
-      <th scope="col">Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for estudante in estudantes %}
-    {% if estudante.get_situacao_display == 'INATIVO' %}
-    <tr class="table-danger">
-      <td>{{estudante.id}}</td>
-      <td>{{estudante.nome}}</td>
-      <td>{{estudante.cpfEstudante}}</td>
-      <td>{{estudante.matricula}}</td>
-      <td>{{estudante.curso.nome}}</td>
-      <td>{{estudante.curso.campus.nome}}</td>
-      <td>{{estudante.get_situacao_display}}</td>
-      <td>{{estudante.get_modoDeEntrada_display}}</td>
-      <td>
-        <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
-          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
-          <i class="fa fa-trash"></i>
-        </button>
-
-        <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
-          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
-          <i class="fa fa-magic" aria-hidden="true"></i>
-        </button>
-      </td>
-    </tr>
-    {% else %}
-    <tr>
-      <td>{{estudante.id}}</td>
-      <td>{{estudante.nome}}</td>
-      <td>{{estudante.cpfEstudante}}</td>
-      <td>{{estudante.matricula}}</td>
-      <td>{{estudante.curso.nome}}</td>
-      <td>{{estudante.curso.campus.nome}}</td>
-      <td>{{estudante.get_situacao_display}}</td>
-      <td>{{estudante.get_modoDeEntrada_display}}</td>
-      <td>
-        <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
-          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
-          <i class="fa fa-trash"></i>
-        </button>
-
-        <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
-          data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
-          <i class="fa fa-magic" aria-hidden="true"></i>
-        </button>
-      </td>
-    </tr>
-    {% endif %}
-    {% endfor %}
-  </tbody>
-</table>
-
-<!-- Modal -->
-<form action="" id="editarEstudanteForm" method="POST">
-  <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
-    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="TituloModalCentralizado">Editar Estudante</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="" method="POST">
-            <input type="hidden" id="id_id">
+    <div class="form-filtrar ml-3 row justify-content">
+        <form action="" method="GET" class="" >
+        <div class="row">
             {% csrf_token %}
-            {{estudanteForm|crispy}}
-          </form>
+            {{form|crispy}}
+            <button class="btn btn-primary btn-lg ml-5 mb-5 mt-4" type="subimt">Filtrar</button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+        <div>
         </div>
-      </div>
+        </form>
     </div>
-  </div>
-</form>
+    <div id="wrapper">
+        <div class="container-fluid">
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Todos Estudantes</h6>
+                    <h5 class="m-0 font-weight-bold text-primary">Total Estudantes: <i class="text-primary">{{totalEstudantes}}</i></h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Matrícula</th>
+                                    <th scope="col">Curso</th>
+                                    <th scope="col">Campus</th>
+                                    <th scope="col">Situação</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Modo de Entrada</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <!-- <tfoot>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Matrícula</th>
+                                    <th scope="col">Curso</th>
+                                    <th scope="col">Campus</th>
+                                    <th scope="col">Situação</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Modo de Entrada</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </tfoot> -->
+                            <tbody>
+                                {% for estudante in page_obj %}
+                                {% if estudante.get_status_display == 'Inativo' %}
+                                <tr class="">
+                                  <td>{{estudante.id}}</td>
+                                  <td>{{estudante.nome}}</td>
+                                  <td>{{estudante.cpfEstudante}}</td>
+                                  <td>{{estudante.matricula}}</td>
+                                  <td>{{estudante.curso.nome}}</td>
+                                  <td>{{estudante.curso.campus.nome}}</td>
+                                  <td><span class="badge badge-danger">{{estudante.get_situacao_display}}</span></td>
+                                  <td><span class="badge badge-danger">{{estudante.get_status_display}}</span></td>
+                                  <td>{{estudante.get_modoDeEntrada_display}}</td>
+                                  <td>
+                                    <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+                                      data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+                                      <i class="fa fa-trash"></i>
+                                    </button>
+                            
+                                    <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+                                      data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+                                      <i class="fa fa-magic" aria-hidden="true"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                  <td>{{estudante.id}}</td>
+                                  <td>{{estudante.nome}}</td>
+                                  <td>{{estudante.cpfEstudante}}</td>
+                                  <td>{{estudante.matricula}}</td>
+                                  <td>{{estudante.curso.nome}}</td>
+                                  <td>{{estudante.curso.campus.nome}}</td>
+                                  <td>{{estudante.get_situacao_display}}</td>
+                                  <td>{{estudante.get_status_display}}</td>
+                                  <td>{{estudante.get_modoDeEntrada_display}}</td>
+                                  <td>
+                                    <button type="button" class="btn btn-danger btn-del"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+                                      data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+                                      <i class="fa fa-trash"></i>
+                                    </button>
+                            
+                                    <button type="button" class="btn btn-primary btn-edit"data-id="{{estudante.id}}" data-nome="{{estudante.nome}}"
+                                      data-situacao="{{estudante.situacao}}" data-matricula="{{estudante.matricula}}">
+                                      <i class="fa fa-magic" aria-hidden="true"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </table>
+                <div class="pagination">
+                  <span class="step-links">
+                      {% if page_obj.has_previous %}
+                          <a href="?page={{ page_obj.previous_page_number }}" class="btn-sm btn-primary">Anterior</a>
+                      {% endif %}
+                
+                      <span class="current">
+                          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                      </span>
+                
+                      {% if page_obj.has_next %}
+                          <a href="?page={{ page_obj.next_page_number }}" class="btn-sm btn-primary">Próxima</a>
+                      {% endif %}
+                  </span>
+                </div>
+                
+                
+                <!-- Modal -->
+                <form action="" id="editarEstudanteForm" method="POST">
+                  <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog"
+                    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="TituloModalCentralizado">Editar Estudante</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="" method="POST">
+                            <input type="hidden" id="id_id">
+                            {% csrf_token %}
+                            {{estudanteForm|crispy}}
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                
+                <div class="modal fade" id="deleteModalCentralizado" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="TituloModalCentralizado">Apagar Estudante</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Tem certeza de que deseja apagar o estudante <span id="nomeEstudante"></span>?</p>
+                        <input type="hidden" name="estudante_id" id="estudante_id">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-danger" id="btn-confirmar-exclusao">Apagar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <script>
+                  $(document).ready(function () {
+                    $('.btn-edit').click(function () {
+                      var id = $(this).data('id');
+                      var nome = $(this).data('nome');
+                      var situacao = $(this).data('situacao');
+                      var matricula = $(this).data('matricula');
+                      console.log(nome)
+                      console.log(situacao)
+                      console.log(id)
+                      console.log(matricula)
+                
+                      $('#id_id').val(id);
+                      $('#id_nome').val(nome);
+                      $('#id_matricula').val(matricula);
+                      $(`#id_situacao option[value=${situacao}]`).attr('selected', 'selected')
+                
+                      var formAction = "/editar-estudante/" + id + "/";
+                      $('#editarEstudanteForm').attr('action', formAction);
+                
+                      $('#ExemploModalCentralizado').modal('show');
+                    });
+                  });
+                </script>
+                
+                <script>
+                  $(document).ready(function () {
+                    $('.btn-del').click(function () {
+                      var id = $(this).data('id');
+                      var formAction = "/apagar-estudante/" + id + "/";
+                      $('#btn-confirmar-exclusao').attr('data-form-action', formAction);
+                      $('#deleteModalCentralizado').modal('show');
+                    });
+                
+                    $('#btn-confirmar-exclusao').click(function () {
+                      var formAction = $(this).attr('data-form-action');
+                      window.location.href = formAction;
+                    });
+                  });
+                </script>
+                </div>
+            </div>
 
-<div class="modal fade" id="deleteModalCentralizado" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="TituloModalCentralizado">Apagar Estudante</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Tem certeza de que deseja apagar o estudante <span id="nomeEstudante"></span>?</p>
-        <input type="hidden" name="estudante_id" id="estudante_id">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-danger" id="btn-confirmar-exclusao">Apagar</button>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
-
-<script>
-  $(document).ready(function () {
-    $('.btn-edit').click(function () {
-      var id = $(this).data('id');
-      var nome = $(this).data('nome');
-      var situacao = $(this).data('situacao');
-      var matricula = $(this).data('matricula');
-      console.log(nome)
-      console.log(situacao)
-      console.log(id)
-      console.log(matricula)
-
-      $('#id_id').val(id);
-      $('#id_nome').val(nome);
-      $('#id_matricula').val(matricula);
-      $(`#id_situacao option[value=${situacao}]`).attr('selected', 'selected')
-
-      var formAction = "/editar-estudante/" + id + "/";
-      $('#editarEstudanteForm').attr('action', formAction);
-
-      $('#ExemploModalCentralizado').modal('show');
-    });
-  });
-</script>
-
-<script>
-  $(document).ready(function () {
-    $('.btn-del').click(function () {
-      var id = $(this).data('id');
-      var formAction = "/apagar-estudante/" + id + "/";
-      $('#btn-confirmar-exclusao').attr('data-form-action', formAction);
-      $('#deleteModalCentralizado').modal('show');
-    });
-
-    $('#btn-confirmar-exclusao').click(function () {
-      var formAction = $(this).attr('data-form-action');
-      window.location.href = formAction;
-    });
-  });
-</script>
 {% endblock conteudo %}

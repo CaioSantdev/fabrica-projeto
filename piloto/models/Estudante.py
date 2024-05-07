@@ -2,17 +2,22 @@ from django.db import models
 from piloto.models import Curso
 import datetime
 
+
 SITUACAO = {
     1: "Vinculado",
     2: "Formado",
     3: "Jubilado",
     4: "Evadido",
-    5: "INATIVO",
+    5: "Desvinculado",
 }
 MODO_DE_ENTRADA ={
     1: "Vestibular",
     2: "SISU",
     3: "PSEnem",
+}
+STATUS ={
+    1: "Ativo",
+    2: "Inativo",
 }
 
 class Estudante(models.Model):
@@ -23,6 +28,7 @@ class Estudante(models.Model):
     eImagem = models.ImageField(verbose_name="Foto do Estudante",upload_to="piloto/img/%Y/%m/%d")
     curso = models.ForeignKey(Curso,verbose_name="Curso do Estudante",on_delete=models.CASCADE)
     situacao = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default=1)
+    status = models.IntegerField(verbose_name="Status",choices=STATUS,default=1)
     modoDeEntrada = models.IntegerField(verbose_name="Modo de Entrada",choices=MODO_DE_ENTRADA,default=2)
 
     def __str__(self):
@@ -31,9 +37,9 @@ class Estudante(models.Model):
     class Meta:
         verbose_name = "Estudante"
         verbose_name_plural = "Estudantes"
-        
+   
     def save(self,*args, **kwargs):
-        # self.cpfFormatado()
+        self.statusEstudante()
         self.matriculaUnica()
         super().save(*args, **kwargs)
 
@@ -53,8 +59,11 @@ class Estudante(models.Model):
 
             matricula = f"{anoAtual}{semestre}{novoNumero:04d}"
             self.matricula = matricula
-
-    # def cpfFormatado(self):
-    #     cpfFormatado = "{}.{}.{}-{}".format(self.cpfEstudante[:3],self.cpfEstudante[3:6],
-    #                                         self.cpfEstudante[6:9],self.cpfEstudante[9:])
-    #     self.cpfEstudante = cpfFormatado
+            
+    def statusEstudante(self):
+        print(f"situacao: {self.situacao}")
+        if self.situacao >= 2:
+            print(f"status: {self.status}")
+            self.status = 2
+        else:
+            self.status = 1
