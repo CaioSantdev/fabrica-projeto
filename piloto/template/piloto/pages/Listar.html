@@ -3,21 +3,21 @@
 
 
 {% block conteudo %}
-    <div class="form-filtrar ml-3">
-        <form action="" method="GET" class="" >
-        <div class=" d-flex justify-content-between mx-5">
-            {% csrf_token %}
-            {{form|crispy}}
-            <button class="btn btn-primary btn-lg ml-5 mb-5 mt-4" type="subimt">Filtrar</button>
-        </div>
-        <div>
-        </div>
-        </form>
-    </div>
-    <div id="wrapper">
-        <div class="container-fluid">
-            <!-- DataTales Example -->
-            <div class="card shadow mb-4">
+<div id="wrapper">
+  <div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+              <div class="form-filtrar ml-3 mt-5">
+                  <form action="" method="GET" class="" >
+                  <div class=" d-flex justify-content-between mx-5">
+                      {% csrf_token %}
+                      {{form|crispy}}
+                      <button class="btn btn-primary btn-lg ml-5 mb-5 mt-4" type="subimt">Filtrar</button>
+                  </div>
+                  <div>
+                  </div>
+                  </form>
+              </div>
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Todos Estudantes</h6>
                     <h5 class="m-0 font-weight-bold text-primary">Total Estudantes: <i class="text-primary">{{totalEstudantes}}</i></h5>

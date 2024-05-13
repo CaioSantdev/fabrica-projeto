@@ -3,7 +3,7 @@ from piloto.models import Campus
 
 
 class Curso(models.Model):
-    nome = models.CharField(verbose_name="Nome do curso",max_length=256)
+    nome = models.CharField(verbose_name="Nome do curso",max_length=256,unique=True)
     campus = models.ForeignKey(Campus,verbose_name="Campus", on_delete=models.CASCADE)
     
     def __str__(self):

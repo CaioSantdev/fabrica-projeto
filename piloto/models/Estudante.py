@@ -26,7 +26,7 @@ class Estudante(models.Model):
     matricula = models.CharField(verbose_name="Matricula",max_length=9,unique=True,)
     dataAniversario = models.DateField(verbose_name="Data de aniversário",null=True)
     eImagem = models.ImageField(verbose_name="Foto do Estudante",upload_to="piloto/img/%Y/%m/%d")
-    curso = models.ForeignKey(Curso,verbose_name="Curso do Estudante",on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso,verbose_name="Curso do Estudante",on_delete=models.CASCADE,unique=True)
     situacao = models.IntegerField(verbose_name="Situação do Estudante",choices=SITUACAO,default=1)
     status = models.IntegerField(verbose_name="Status",choices=STATUS,default=1)
     modoDeEntrada = models.IntegerField(verbose_name="Modo de Entrada",choices=MODO_DE_ENTRADA,default=2)
